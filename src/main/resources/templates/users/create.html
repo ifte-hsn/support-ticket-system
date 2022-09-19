@@ -44,6 +44,7 @@
         </div> <!--card-header -->
 
         <form class="form-horizontal" th:action="@{/users/save}" th:object="${user}" method="post">
+          <input type="hidden" th:field="*{id}">
           <div class="card-body">
             <div class="form-group row">
               <label for="firstName" class="col-sm-2 col-form-label">First Name</label>

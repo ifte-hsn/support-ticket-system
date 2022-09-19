@@ -3,10 +3,7 @@ package com.helloshishir.support.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +34,14 @@ public class UsersController {
     public String save(@ModelAttribute User user, ModelMap modelMap) {
         userService.save(user);
         return "redirect:list";
+    }
+
+    // update user
+    @GetMapping("edit/{id}")
+    public String edit(@PathVariable("id") Integer id, ModelMap modelMap) {
+        User user = userService.findById(id);
+        modelMap.put("user", user);
+        return "users/create";
     }
     // 4. delete existing user
 }

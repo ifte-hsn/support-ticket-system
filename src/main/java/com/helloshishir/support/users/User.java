@@ -1,9 +1,12 @@
 package com.helloshishir.support.users;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

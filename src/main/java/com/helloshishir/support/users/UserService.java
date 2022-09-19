@@ -22,8 +22,8 @@ public class UserService {
     }
 
     // 2. get user by id
-    public Optional<User> findById(Integer id) {
-        return userRepository.findById(id);
+    public User findById(Integer id) {
+        return userRepository.findById(id).get();
     }
     // 3. get user by username
     public User findByUsername(String username) {
@@ -37,7 +37,20 @@ public class UserService {
 
     // 5. create/update user
     public User save(User user) {
-        encodePassword(user);
+
+        Boolean isUpdatingUser = (user.getId() != null); // returns true if id is not null
+
+        if(isUpdatingUser) {
+            User userFromDb = findById(user.getId());
+            if(user.getPassword().isEmpty()) {
+                user.setPassword(userFromDb.getPassword());
+            } else {
+                encodePassword(user);
+            }
+        } else {
+            encodePassword(user);
+        }
+
         return userRepository.save(user);
     }
 
