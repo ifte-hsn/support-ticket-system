@@ -1,6 +1,7 @@
 package com.helloshishir.support.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     // 1. get all users
     public List<User> findAll() {
@@ -33,11 +37,16 @@ public class UserService {
 
     // 5. create/update user
     public User save(User user) {
+        encodePassword(user);
         return userRepository.save(user);
     }
 
     // 6. delete user
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    private void encodePassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 }

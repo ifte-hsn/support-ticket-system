@@ -31,7 +31,7 @@ public class User {
     String address;
 
     @Column(name = "active")
-    String active;
+    Boolean isActive;
 
     @Column(name = "photo")
     String photo;
@@ -100,12 +100,13 @@ public class User {
         this.address = address;
     }
 
-    public String getActive() {
-        return active;
+
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setActive(String active) {
-        this.active = active;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public String getPhoto() {
@@ -127,7 +128,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", active='" + active + '\'' +
+                ", isActive=" + isActive +
                 ", photo='" + photo + '\'' +
                 '}';
     }
