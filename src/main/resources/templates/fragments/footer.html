@@ -23,8 +23,33 @@
   <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
   <!-- Bootstrap 4 -->
   <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+  <!-- Toastr -->
+  <script th:src="@{/plugins/toastr/toastr.min.js}"></script>
+
   <!-- AdminLTE App -->
   <script th:src="@{/js/adminlte.min.js}"></script>
+
+  <script th:if="${SUCCESS_MESSAGE}">
+    $(document).Toasts('create', {
+      title: 'SUCCESS',
+      autohide: true,
+      delay: 3000,
+      class:'bg-success',
+      body: '[[${SUCCESS_MESSAGE}]]'
+    })
+  </script>
+
+
+  <script th:if="${ERROR_MESSAGE}">
+    $(document).Toasts('create', {
+      title: 'ERROR',
+      autohide: true,
+      delay: 3000,
+      class:'bg-danger',
+      body: '[[${ERROR_MESSAGE}]]'
+    })
+  </script>
 </div>
 </body>
 </html>

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,8 +32,9 @@ public class UsersController {
 
     // 3. save/update existing user
     @PostMapping("save")
-    public String save(@ModelAttribute User user, ModelMap modelMap) {
+    public String save(@ModelAttribute User user, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         userService.save(user);
+        redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "User saved successfully!");
         return "redirect:/users/list";
     }
 
@@ -45,9 +47,10 @@ public class UsersController {
     }
     // 4. delete existing user
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Integer id) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         User user = userService.findById(id);
         userService.delete(user);
+        redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "User deleted successfully!");
         return "redirect:/users/list";
     }
 }
