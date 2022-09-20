@@ -33,7 +33,7 @@ public class UsersController {
     @PostMapping("save")
     public String save(@ModelAttribute User user, ModelMap modelMap) {
         userService.save(user);
-        return "redirect:list";
+        return "redirect:/users/list";
     }
 
     // update user
@@ -44,4 +44,10 @@ public class UsersController {
         return "users/create";
     }
     // 4. delete existing user
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+        User user = userService.findById(id);
+        userService.delete(user);
+        return "redirect:/users/list";
+    }
 }
