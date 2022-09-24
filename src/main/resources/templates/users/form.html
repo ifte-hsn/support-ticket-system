@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav th:replace="~{fragments/navbar::navbar}"></nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside th:replace="~{fragments/left-sidebar::left-sidebar}"></aside>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Create New User</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+              <li class="breadcrumb-item"><a th:href="@{/users/list}">Users List</a></li>
+              <li class="breadcrumb-item active">Create</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-tools">
+            <a th:href="@{/users/list}" class="btn btn-dark">
+              <i class="fas fa-arrow-left fa-plus"></i> Users List
+            </a>
+          </div><!--card-tools -->
+        </div> <!--card-header -->
+
+        <form class="form-horizontal" th:action="@{/users/save}" th:object="${user}" method="post" onsubmit="return validate()">
+          <input type="hidden" th:field="*{id}">
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="firstName" class="col-sm-2 col-form-label">First Name <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{firstName}" th:errorclass="is-invalid" placeholder="First Name">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+
+            <div class="form-group row">
+              <label for="lastName" class="col-sm-2 col-form-label">Last Name <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{lastName}" th:errorclass="is-invalid" placeholder="Last Name">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-group row">
+              <label for="username" class="col-sm-2 col-form-label">Username <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{username}" th:errorclass="is-invalid" placeholder="Username">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                <p class="username-feedback error invalid-feedback d-none">Please provide a unique username.</p>
+
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-group row">
+              <label for="email" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" th:field="*{email}" th:errorclass="is-invalid" placeholder="Email">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                <p class="email-feedback error invalid-feedback d-none">Please provide a unique email address.</p>
+
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-group row">
+              <label for="password" class="col-sm-2 col-form-label">Password <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" placeholder="Password">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-group row">
+              <label for="phone" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{phone}" th:errorclass="is-invalid" placeholder="Phone">
+                <p class="error invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-group row">
+              <label for="address" class="col-sm-2 col-form-label">Address</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{address}" placeholder="Address">
+              </div><!--col-sm-10 -->
+            </div><!--form-group -->
+
+            <div class="form-check offset-2">
+              <input type="checkbox" th:field="*{active}" class="form-check-input">
+              <label class="form-check-label" for="active1">Active</label>
+            </div>
+
+          </div><!--card-body -->
+
+          <div class="card-footer">
+            <input type="submit" value="Submit" class="offset-2 btn btn-primary">
+          </div><!--card-footer -->
+        </form>
+      </div><!--card -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer th:replace="~{fragments/footer::footer}"></footer>
+
+  <script>
+
+
+    function validate() {
+      // return isUniqueUsername() && isUniqueEmail();
+
+      return isUniqueUsername() && isUniqueEmail();
+    }
+
+    function isUniqueEmail() {
+      let emailField = $('#email');
+      let csrf = $('input[name="_csrf"]').val();
+      let id = $('input[name="id"]').val();
+      let data = {"id":id, "email":emailField.val(), "_csrf":csrf};
+      let url = "/users/is_unique_email";
+
+      emailFeedback = $('.email-feedback');
+
+
+      if(sendRequest(url, data)===true) {
+        // email address is unique. then just return true
+        emailField.removeClass("is-invalid");
+        emailFeedback.addClass("d-none");
+        return true;
+      } else {
+        // duplicate email address. so provide error message
+        emailField.addClass("is-invalid");
+        emailFeedback.removeClass("d-none");
+        return false;
+      }
+
+    }
+
+    function isUniqueUsername() {
+      let usernameField = $('#username');
+      let csrf = $('input[name="_csrf"]').val();
+      let id = $('input[name="id"]').val();
+
+      let data = {"id":id, "username":usernameField.val(), "_csrf":csrf};
+
+      let url = "/users/is_unique_username";
+      let usernameFeedback = $('.username-feedback');
+
+      if(sendRequest(url, data)===true) {
+        usernameField.removeClass("is-invalid");
+        usernameFeedback.addClass("d-none");
+        return true;
+      } else {
+        usernameField.addClass("is-invalid");
+        usernameFeedback.removeClass("d-none");
+        return false;
+      }
+
+    }
+
+    function sendRequest(url, data) {
+      let temp = false;
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        async: false,
+        success: function (response) {
+          temp = response;
+        }
+      })
+      return temp;
+    }
+
+  </script>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<div th:replace="~{fragments/footer::footer_scripts}"></div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.helloshishir.support.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,31 @@ public class UserService {
     // 6. delete user
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    // check is unique email
+    public boolean isEmailUnique(Integer id, String email) {
+        if(id != null) {
+            // edit user
+            // So we need to check if provided email is same as user email
+            // if same then return true, so that user can save the form.
+            // otherwise normal validation process
+            User user = findById(id);
+            if(user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return findByEmail(email) == null;
+    }
+
+    public boolean isUsernameUnique(Integer id, String username) {
+        if(id != null) {
+            User user = findById(id);
+            if(user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return findByUsername(username) == null;
     }
 
     private void encodePassword(User user) {

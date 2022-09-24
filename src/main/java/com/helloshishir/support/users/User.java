@@ -3,6 +3,10 @@ package com.helloshishir.support.users;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -12,21 +16,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @NotEmpty(message = "First name can not be empty")
+    @Size(min = 5, message = "Minimum 5 characters required")
     @Column(name = "first_name")
     String firstName;
 
+    @NotEmpty(message = "Last name can not be empty")
+    @Size(min = 5, message = "Minimum 5 characters required")
     @Column(name = "last_name")
     String lastName;
 
+    @Email
+    @NotEmpty(message = "Email can not be empty")
     @Column(name = "email", unique = true)
     String email;
 
+    @NotEmpty(message = "Username is required")
+    @Size(min = 5, message = "Minimum 5 characters required")
     @Column(name = "username", unique = true)
     String username;
 
+    @NotEmpty(message = "password is required")
+    @Size(min = 8, message = "Minimum 8 characters required")
     @Column(name = "password")
     String password;
 
+    @NotEmpty(message = "Phone no required.")
     @Column(name = "phone")
     String phone;
 
