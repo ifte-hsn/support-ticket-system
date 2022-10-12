@@ -18,7 +18,8 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Create New User</h1>
+            <h1 th:if="${user.id == null}" class="m-0">Create New User</h1>
+            <h1 th:if="${user.id != null}" class="m-0">Edit User</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -38,81 +39,110 @@
         <div class="card-header">
           <div class="card-tools">
             <a th:href="@{/users/list}" class="btn btn-dark">
-              <i class="fas fa-arrow-left fa-plus"></i> Users List
+              <i class="fas fa-arrow-left fa-list mr-1"></i> Users List
             </a>
           </div><!--card-tools -->
         </div> <!--card-header -->
 
-        <form class="form-horizontal" th:action="@{/users/save}" th:object="${user}" method="post" onsubmit="return validate()">
+        <form class="form-horizontal" th:action="@{/users/save}" th:object="${user}" method="post" onsubmit="return validate()" enctype="multipart/form-data">
           <input type="hidden" th:field="*{id}">
           <div class="card-body">
-            <div class="form-group row">
-              <label for="firstName" class="col-sm-2 col-form-label">First Name <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{firstName}" th:errorclass="is-invalid" placeholder="First Name">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group row">
+                  <label for="firstName" class="col-sm-2 col-form-label">First Name <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{firstName}" th:errorclass="is-invalid" placeholder="First Name">
+                    <p class="error invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
 
-            <div class="form-group row">
-              <label for="lastName" class="col-sm-2 col-form-label">Last Name <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{lastName}" th:errorclass="is-invalid" placeholder="Last Name">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                <div class="form-group row">
+                  <label for="lastName" class="col-sm-2 col-form-label">Last Name <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{lastName}" th:errorclass="is-invalid" placeholder="Last Name">
+                    <p class="error invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
 
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
-            <div class="form-group row">
-              <label for="username" class="col-sm-2 col-form-label">Username <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{username}" th:errorclass="is-invalid" placeholder="Username">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-                <p class="username-feedback error invalid-feedback d-none">Please provide a unique username.</p>
+                <div class="form-group row">
+                  <label for="username" class="col-sm-2 col-form-label">Username <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{username}" th:errorclass="is-invalid" placeholder="Username">
+                    <p class="error invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                    <p class="username-feedback error invalid-feedback d-none">Please provide a unique username.</p>
 
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
-            <div class="form-group row">
-              <label for="email" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" th:field="*{email}" th:errorclass="is-invalid" placeholder="Email">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-                <p class="email-feedback error invalid-feedback d-none">Please provide a unique email address.</p>
+                <div class="form-group row">
+                  <label for="email" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <input type="email" class="form-control" th:field="*{email}" th:errorclass="is-invalid" placeholder="Email">
+                    <p class="error invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    <p class="email-feedback error invalid-feedback d-none">Please provide a unique email address.</p>
 
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
-            <div class="form-group row">
-              <label for="password" class="col-sm-2 col-form-label">Password <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" placeholder="Password">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                <div class="form-group row">
+                  <label for="password" class="col-sm-2 col-form-label">Password <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
 
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                    <input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" placeholder="Password">
+                    <input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" placeholder="Password" required>
 
-            <div class="form-group row">
-              <label for="phone" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{phone}" th:errorclass="is-invalid" placeholder="Phone">
-                <p class="error invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                <div class="form-group row">
+                  <label for="phone" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{phone}" th:errorclass="is-invalid" placeholder="Phone">
+                    <p class="error invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
 
-            <div class="form-group row">
-              <label for="address" class="col-sm-2 col-form-label">Address</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{address}" placeholder="Address">
-              </div><!--col-sm-10 -->
-            </div><!--form-group -->
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
 
-            <div class="form-check offset-2">
-              <input type="checkbox" th:field="*{active}" class="form-check-input">
-              <label class="form-check-label" for="active1">Active</label>
-            </div>
+                <div class="form-group row">
+                  <label for="address" class="col-sm-2 col-form-label">Address</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{address}" placeholder="Address">
+                  </div><!--col-sm-10 -->
+                </div><!--form-group -->
+
+                <div class="form-check offset-2">
+                  <input type="checkbox" th:field="*{active}" class="form-check-input">
+                  <label class="form-check-label" for="active1">Active</label>
+                </div>
+              </div><!--col-sm-8 -->
+
+              <div class="col-sm-4 pl-5">
+                <div class="offset-3 col-sm-5">
+                  <img th:if="${user.photo != null }" id="imagePreview" class="img-thumbnail" th:src="@{'/uploads/'+${user.id}+'/'+${user.photo}}">
+                  <img th:if="${user.photo == null }" id="imagePreview">
+                </div>
+                <div class="form-group row">
+
+                  <label class="col-form-label col-sm-4">Upload Image</label>
+
+                  <div class="col-sm-6">
+                    <label class="btn btn-default">
+                      Upload
+                      <input type="hidden" th:field="*{photo}">
+                      <input type="file" name="image" id="uploadImage" accept="image/gif, image/jpeg, image/png, image/svg" style="display: none">
+                    </label>
+                    <span id="upload-file-info"></span>
+                    <p class="note-help-block" id="upload-file-status">Accepted files types are jpg, png, gif and svg.</p>
+
+                  </div><!--col-sm-6 -->
+
+                </div><!--form-group -->
+              </div>
+            </div> <!--row -->
 
           </div><!--card-body -->
 
@@ -138,6 +168,9 @@
 
   <!-- Main Footer -->
   <footer th:replace="~{fragments/footer::footer}"></footer>
+
+  <!-- REQUIRED SCRIPTS -->
+  <div th:replace="~{fragments/footer::footer_scripts}"></div>
 
   <script>
 
@@ -208,11 +241,36 @@
       return temp;
     }
 
+    function formateBytes(bytes) {
+      if(bytes < 1024) return bytes + ' Bytes';
+      else if(bytes < 1048576 ) return (bytes/1024).toFixed(2) + " KB";
+      else return (bytes/1048576).toFixed(2) + " MB";
+    }
+
+    $('#uploadImage').bind('change', function () {
+      let uploadFileStatus = $('#upload-file-status');
+      let uploadFileInfo = $('#upload-file-info');
+
+      uploadFileInfo.append('<span class="badge badge-primary">'+this.files[0].name+'('+formateBytes(this.files[0].size)+')'+'</span>');
+      uploadFileStatus.addClass('text-success').removeClass('note-help-block').prepend('<i class="fa fa-check"></i>')
+
+      // preview the image
+      if(this.files && this.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#imagePreview').attr("src", e.target.result).addClass('img-thumbnail');
+        }
+
+        reader.readAsDataURL(this.files[0]);
+      }
+
+    });
+
   </script>
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-<div th:replace="~{fragments/footer::footer_scripts}"></div>
+
 </body>
 </html>

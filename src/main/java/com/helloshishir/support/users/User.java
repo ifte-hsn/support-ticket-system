@@ -17,12 +17,12 @@ public class User {
     Integer id;
 
     @NotEmpty(message = "First name can not be empty")
-    @Size(min = 5, message = "Minimum 5 characters required")
+    @Size(min = 3, message = "Minimum 5 characters required")
     @Column(name = "first_name")
     String firstName;
 
     @NotEmpty(message = "Last name can not be empty")
-    @Size(min = 5, message = "Minimum 5 characters required")
+    @Size(min = 3, message = "Minimum 5 characters required")
     @Column(name = "last_name")
     String lastName;
 
@@ -32,12 +32,11 @@ public class User {
     String email;
 
     @NotEmpty(message = "Username is required")
-    @Size(min = 5, message = "Minimum 5 characters required")
+    @Size(min = 3, message = "Minimum 5 characters required")
     @Column(name = "username", unique = true)
     String username;
 
-    @NotEmpty(message = "password is required")
-    @Size(min = 8, message = "Minimum 8 characters required")
+
     @Column(name = "password")
     String password;
 

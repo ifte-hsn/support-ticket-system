@@ -38,7 +38,7 @@
           <h3 class="card-title">Users List</h3>
           <div class="card-tools">
             <a th:href="@{/users/create}" class="btn btn-dark">
-              <i class="fas fa-regular fa-plus"></i> Add New User
+              <i class="fas fa-regular fa-plus mr-1"></i> Add New User
             </a>
           </div><!--card-tools -->
         </div> <!--card-header -->
@@ -61,7 +61,10 @@
             <tbody>
               <tr th:each="user : ${userList}">
                 <td th:text="${user.id}"></td>
-                <td></td>
+                <td>
+                  <span th:if="${user.photo == null}" class="fas fa-portrait fa-3x" style="color: silver"></span>
+                  <img class="img-thumbnail img-size-64" th:if="${user.photo != null}"  th:src="@{'/uploads/'+${user.id}+'/'+${user.photo}}">
+                </td>
                 <td th:text="${user.firstName}"></td>
                 <td th:text="${user.lastName}"></td>
                 <td th:text="${user.username}"></td>

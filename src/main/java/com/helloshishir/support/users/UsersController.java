@@ -1,16 +1,22 @@
 package com.helloshishir.support.users;
 
+import com.helloshishir.support.util.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -19,6 +25,9 @@ public class UsersController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    StorageService storageService;
 
     // 1. get all users
     @GetMapping("list")
@@ -37,11 +46,37 @@ public class UsersController {
 
     // 3. save/update existing user
     @PostMapping("save")
-    public String save(@Valid @ModelAttribute User user, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+    public String save(@Valid @ModelAttribute User user,
+                       BindingResult bindingResult,
+                       ModelMap modelMap,
+                       RedirectAttributes redirectAttributes,
+                       @RequestParam("image")MultipartFile multipartFile) throws IOException {
+
         if (bindingResult.hasErrors()) {
             return "users/form";
         }
-        userService.save(user);
+
+
+        String fileName = "";
+
+        if(!multipartFile.isEmpty()) {
+            // get the file name
+            fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            user.setPhoto(fileName);
+        }
+
+        User savedUser = userService.save(user);
+
+        if(!multipartFile.isEmpty()) {
+            // get upload directory
+            // in our case we will save it to the static resource directory
+            // that exists in our class path
+            String uploadDir = ResourceUtils.getURL("classpath:").getPath()+"/static/uploads/"+savedUser.getId();
+
+            storageService.clearDir(uploadDir);
+            storageService.save(multipartFile, uploadDir, fileName);
+        }
+
         redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "User saved successfully!");
         return "redirect:/users/list";
     }
