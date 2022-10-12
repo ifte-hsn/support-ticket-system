@@ -2,6 +2,7 @@ package com.helloshishir.support.users;
 
 import com.helloshishir.support.util.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +31,25 @@ public class UsersController {
     StorageService storageService;
 
     // 1. get all users
-    @GetMapping("list")
-    public String getUsersList(ModelMap modelMap) {
-        List<User> userList = userService.findAll();
+    @GetMapping("index")
+    public String getUsersList(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+                               @RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage,
+                               @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction,
+                               ModelMap modelMap) {
+        Page<User> userList = userService.findAll(pageNumber, perPage, direction);
         modelMap.put("userList", userList);
         return "users/list";
     }
+
+    @GetMapping("list")
+    @ResponseBody
+    public ResponseEntity<Page<User>> getUsers(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+                                               @RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage,
+                                               @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction){
+        return new ResponseEntity<>(userService.findAll(pageNumber, perPage, direction), HttpStatus.OK);
+    }
+
+
     // 2. add new user form
     @GetMapping("create")
     public String create(ModelMap modelMap) {

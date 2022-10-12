@@ -17,12 +17,12 @@ public class User {
     Integer id;
 
     @NotEmpty(message = "First name can not be empty")
-    @Size(min = 3, message = "Minimum 5 characters required")
+    @Size(min = 3, message = "Minimum 3 characters required")
     @Column(name = "first_name")
     String firstName;
 
     @NotEmpty(message = "Last name can not be empty")
-    @Size(min = 3, message = "Minimum 5 characters required")
+    @Size(min = 3, message = "Minimum 3 characters required")
     @Column(name = "last_name")
     String lastName;
 

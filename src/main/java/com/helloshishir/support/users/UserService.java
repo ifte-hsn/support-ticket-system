@@ -1,6 +1,10 @@
 package com.helloshishir.support.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,8 +22,13 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     // 1. get all users
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(int pageNumber, int perPage, String direction) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        if(direction.equalsIgnoreCase("DESC")) {
+            sort = Sort.by(Sort.Direction.DESC, "id");
+        }
+        Pageable page = PageRequest.of(pageNumber, perPage, sort);
+        return userRepository.findAll(page);
     }
 
     // 2. get user by id
