@@ -32,20 +32,24 @@ public class UsersController {
 
     // 1. get all users
     @GetMapping("index")
-    public String getUsersList(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
-                               @RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage,
-                               @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction,
-                               ModelMap modelMap) {
-        Page<User> userList = userService.findAll(pageNumber, perPage, direction);
-        modelMap.put("userList", userList);
+    public String getUsersList() {
         return "users/list";
     }
 
     @GetMapping("list")
     @ResponseBody
-    public ResponseEntity<Page<User>> getUsers(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
-                                               @RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage,
+    public ResponseEntity<Page<User>> getUsers(@RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
+                                               @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
                                                @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction){
+
+        int pageNumber = offset;
+        int perPage = limit;
+
+        if (pageNumber != 0 && perPage != 0) {
+            pageNumber = pageNumber/perPage;
+        }
+
+
         return new ResponseEntity<>(userService.findAll(pageNumber, perPage, direction), HttpStatus.OK);
     }
 
