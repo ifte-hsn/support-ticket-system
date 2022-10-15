@@ -22,8 +22,9 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     // 1. get all users
-    public Page<User> findAll(int pageNumber, int perPage, String direction) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+    public Page<User> findAll(int pageNumber, int perPage, String sortField, String direction) {
+        Sort sort = Sort.by(Sort.Direction.ASC, sortField);
+
         if(direction.equalsIgnoreCase("DESC")) {
             sort = Sort.by(Sort.Direction.DESC, "id");
         }

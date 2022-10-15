@@ -40,7 +40,8 @@ public class UsersController {
     @ResponseBody
     public ResponseEntity<Page<User>> getUsers(@RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
                                                @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
-                                               @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction){
+                                               @RequestParam(value = "sort", required = false, defaultValue = "id") String sortField,
+                                               @RequestParam(value = "order", required = false, defaultValue = "ASC") String order){
 
         int pageNumber = offset;
         int perPage = limit;
@@ -50,7 +51,7 @@ public class UsersController {
         }
 
 
-        return new ResponseEntity<>(userService.findAll(pageNumber, perPage, direction), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAll(pageNumber, perPage, sortField, order), HttpStatus.OK);
     }
 
 
