@@ -61,7 +61,8 @@
                 <th data-field="email" data-sortable="true">Email</th>
                 <th data-field="phone" data-sortable="true">Phone</th>
                 <th data-field="address" data-sortable="true">Address</th>
-                <th data-field="isActive" data-sortable="true">Status</th>
+                <th data-field="active" data-formatter="statusFormatter">Status</th>
+                <th data-formatter="actionBtnFormatter">Action</th>
               </tr>
             </thead>
           </table>
@@ -89,5 +90,26 @@
 
 <!-- REQUIRED SCRIPTS -->
 <div th:replace="~{fragments/footer::footer_scripts}"></div>
+
+<script th:inline="javascript">
+  function statusFormatter(value, row, index) {
+    if(value === true) {
+      return '<i class="fas fa-check-circle text-success"></i>';
+    } else {
+      return '<i class="fas fa-times-circle text-danger"></i>';
+    }
+  }
+
+  function actionBtnFormatter(value, row, index) {
+    /*<![CDATA[*/
+      let editUrl = /*[[@{/users/edit/}]]*/;
+      let deleteUrl = /*[[@{/users/delete/}]]*/;
+    /*]]>*/
+
+    return '<a class="btn btn-xs btn-info" href="'+editUrl+row.id+'">Edit</a>' +
+            '<a class="btn btn-xs btn-danger" href="'+deleteUrl+row.id+'">Delete</a>';
+  }
+
+</script>
 </body>
 </html>

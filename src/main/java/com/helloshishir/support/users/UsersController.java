@@ -113,7 +113,7 @@ public class UsersController {
         User user = userService.findById(id);
         userService.delete(user);
         redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "User deleted successfully!");
-        return "redirect:/users/list";
+        return "redirect:/users/index";
     }
 
 
