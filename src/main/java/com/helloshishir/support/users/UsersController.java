@@ -97,7 +97,7 @@ public class UsersController {
         }
 
         redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "User saved successfully!");
-        return "redirect:/users/list";
+        return "redirect:/users/index";
     }
 
     // update user

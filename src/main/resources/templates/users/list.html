@@ -55,6 +55,7 @@
             <thead>
               <tr>
                 <th data-field="id" data-sortable="true">ID</th>
+                <th data-formatter="photoFormatter">Photo</th>
                 <th data-field="firstName" data-sortable="true">First Name</th>
                 <th data-field="lastName" data-sortable="true">Last Name</th>
                 <th data-field="username" data-sortable="true">Username</th>
@@ -108,6 +109,14 @@
 
     return '<a class="btn btn-xs btn-info" href="'+editUrl+row.id+'">Edit</a>' +
             '<a class="btn btn-xs btn-danger" href="'+deleteUrl+row.id+'">Delete</a>';
+  }
+
+  function photoFormatter(value, row, index) {
+    if(row.photo != null) {
+      return '<img src="/uploads/'+row.id+'/'+row.photo+'" class="img-thumbnail img-size-64">'
+    } else {
+      return '<span class="fas fa-portrait fa-3x" style="color: silver"></span>'
+    }
   }
 
 </script>
